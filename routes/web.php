@@ -1,6 +1,12 @@
 <?php
 
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ContactsController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,11 +20,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/login', [AuthenticatedSessionController::class, 'create'])->middleware('guest')->name('login');
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])->middleware('guest');
+Route::get('/logout', [AuthenticatedSessionController::class, 'destroy'])->middleware('auth')->name('logout');
 
-require __DIR__.'/auth.php';
+Route::get('/register', [RegisteredUserController::class, 'create'])->middleware('guest')->name('register');
+Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest');
+
+Route::get('/contacts', [ContactsController::class, 'create'])->middleware('auth')->name('contacts');
+Route::get('/chat/{id}', [ChatController::class, 'create'])->middleware('auth')->name('chat');
+Route::get('/chat', function () {
+    return redirect('/contacts');
+})->middleware('auth');
+
+// require __DIR__.'/auth.php';

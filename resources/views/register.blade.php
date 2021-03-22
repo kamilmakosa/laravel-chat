@@ -1,0 +1,56 @@
+@extends('layout')
+
+@section('body')
+<body>
+	<div class="wrapper">
+		<section class="form signup">
+			<header>Realtime Chat App</header>
+			<form action="{{ route('register') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+			    @csrf
+				@if ($errors->all())
+				<div class="error-text">
+					<div>{{ __('Whoops! Something went wrong.') }}</div>
+					@foreach ($errors->all() as $error)
+                	<div>{{ $error }}</div>
+					@endforeach
+				</div>
+				@endif
+				<div class="name-details">
+					<div class="field input">
+						<label>First Name</label>
+						<input type="text" name="fname" placeholder="First name" required>
+					</div>
+					<div class="field input">
+						<label>Last Name</label>
+						<input type="text" name="lname" placeholder="Last name" required>
+					</div>
+				</div>
+				<div class="field input">
+					<label>Email Address</label>
+					<input type="text" name="email" placeholder="Enter your email" required>
+				</div>
+				<div class="field input">
+					<label>Password</label>
+					<input type="password" name="password" placeholder="Enter new password" required>
+					<i class="fas fa-eye"></i>
+				</div>
+				<div class="field input">
+					<label>Confirm Password</label>
+					<input type="password" name="password_confirmation" placeholder="Confirm password" required>
+					<i class="fas fa-eye"></i>
+				</div>
+				<div class="field image">
+					<label>Select Image</label>
+					<input type="file" name="avatar" accept="image/x-png,image/gif,image/jpeg,image/jpg" required>
+				</div>
+				<div class="field button">
+					<input type="submit" name="submit" value="Continue to Chat">
+				</div>
+			</form>
+			<div class="link">Already signed up? <a href="{{ route('login') }}">Login now</a></div>
+		</section>
+	</div>
+
+	<script src="{{ asset('js/pass-show-hide.js') }}"></script>
+</body>
+@endsection
