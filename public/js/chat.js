@@ -20,7 +20,7 @@ inputField.onkeyup = ()=>{
 
 sendBtn.onclick = ()=>{
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", "/api/messages", true);
+    xhr.open("POST", apiMessageURL, true);
     xhr.onload = ()=>{
       if(xhr.readyState === XMLHttpRequest.DONE){
           if(xhr.status === 200){
@@ -42,7 +42,7 @@ chatBox.onmouseleave = ()=>{
 
 setInterval(() =>{
     let xhr = new XMLHttpRequest();
-    xhr.open("GET", "/api/messages"+"?sender_id="+ sender_id +"&receiver_id=" + receiver_id, true);
+    xhr.open("GET", apiMessageURL+"?sender_id="+ sender_id +"&receiver_id=" + receiver_id, true);
     xhr.onload = ()=>{
       if(xhr.readyState === XMLHttpRequest.DONE){
           if(xhr.status === 200){

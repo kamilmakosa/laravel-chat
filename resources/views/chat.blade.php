@@ -24,7 +24,10 @@
         </section>
     </div>
 
-    <script src="{{ asset('js/chat.js') }}"></script>
+<script>
+var apiMessageURL = "{{ asset('api/messages') }}";
+</script>
+<script src="{{ asset('js/chat.js') }}"></script>
 
 </body>
 @endsection
