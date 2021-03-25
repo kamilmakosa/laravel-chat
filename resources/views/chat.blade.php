@@ -8,7 +8,7 @@
                 <a href="{{ route('contacts') }}" class="back-icon"><i class="fas fa-arrow-left"></i></a>
                 <img src="{{ asset($talkUser->avatar) }}" alt="User Avatar">
                 <div class="details">
-                    <span>{{ $talkUser->fname }} {{ $talkUser->lname }}</span>
+                    <span>{{ $talkUser->fname }} {{ $talkUser->lname }} <span id="typing"></span></span>
                     <p id="status"></p>
                 </div>
             </header>
@@ -32,6 +32,25 @@ var apiMessageURL = "{{ asset('api/messages') }}";
 <script>
 var user = @json(Auth::user());
 var talkUser = @json($talkUser);
+
+function sendTypingEvent() {
+    console.log('typing');
+    Echo.private('chat.{{ $user->id }}.{{ $talkUser->id }}')
+        .whisper('typing', { userID: {{ $user->id }} });
+}
+
+var typingTimeout;
+
+Echo.private('chat.{{ $talkUser->id }}.{{ $user->id }}')
+    .listenForWhisper('typing', (data) => {
+        console.log(data);
+        typingStatus = document.querySelector("#typing");
+        typingStatus.innerHTML = '<i>typing message...</i>';
+        clearTimeout(typingTimeout);
+        typingTimeout = setTimeout(() => {
+            typingStatus.innerHTML = "";
+        }, 1500);
+    });
 
 var statusTimeout;
 

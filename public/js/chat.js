@@ -13,6 +13,7 @@ inputField.focus();
 inputField.onkeyup = ()=>{
     if(inputField.value != ""){
         sendBtn.classList.add("active");
+        sendTypingEvent();
     }else{
         sendBtn.classList.remove("active");
     }
