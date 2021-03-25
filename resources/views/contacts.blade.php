@@ -21,7 +21,7 @@
             </div>
             <div class="users-list">
 				@foreach ($users as $user)
-				<a href="{{ route('chat', ['id' => $user->id]) }}">
+				<a id="user{{ $user->id }}" href="{{ route('chat', ['id' => $user->id]) }}">
                     <div class="content">
                     <img src="{{ asset($user->avatar) }}" alt="">
                     <div class="details">
@@ -29,14 +29,35 @@
                         <!-- <p>'. $you . $msg .'</p> -->
                     </div>
                     </div>
-                    <!-- <div class="status-dot '. $offline .'"><i class="fas fa-circle"></i></div> -->
+                    <div class="status-dot offline"><i class="fas fa-circle"></i></div>
                 </a>
 				@endforeach
             </div>
         </section>
     </div>
 
-    <script src="{{ asset('js/users.js') }}"></script>
+<script src="{{ asset('js/users.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
+<script>
+var user = @json(Auth::user());
+
+var timeouts = {};
+
+Echo.private('chat')
+    .listenForWhisper('status', (data) => {
+        userTag = document.querySelector("#user"+data.userID);
+        dot = userTag.querySelector(".status-dot");
+        dot.classList.remove("offline");
+        clearTimeout(timeouts[data.userID]);
+        timeouts[data.userID] = setTimeout(() => {
+            dot.classList.add("offline");
+        }, 10000);
+    });
+
+statusBroadcastingInterval = setInterval(() => {
+    Echo.private('chat').whisper('status', { userID: user.id, status: 'active' })
+}, 2000);
+</script>
 
 </body>
 @endsection

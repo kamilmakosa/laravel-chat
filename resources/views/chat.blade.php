@@ -9,7 +9,7 @@
                 <img src="{{ asset($talkUser->avatar) }}" alt="User Avatar">
                 <div class="details">
                     <span>{{ $talkUser->fname }} {{ $talkUser->lname }}</span>
-                    <p><?php //echo $row['status']; ?></p>
+                    <p id="status"></p>
                 </div>
             </header>
             <div class="chat-box">
@@ -28,6 +28,29 @@
 var apiMessageURL = "{{ asset('api/messages') }}";
 </script>
 <script src="{{ asset('js/chat.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
+<script>
+var user = @json(Auth::user());
+var talkUser = @json($talkUser);
+
+var statusTimeout;
+
+Echo.private('chat')
+    .listenForWhisper('status', (data) => {
+        userStatus = document.querySelector("#status");
+        if(data.userID == {{ $talkUser->id }}) {
+            clearTimeout(statusTimeout);
+            userStatus.innerHTML = "Active now";
+            statusTimeout = setTimeout(() => {
+                userStatus.innerHTML = "";
+            }, 10000);
+        }
+    });
+
+statusBroadcastingInterval = setInterval(() => {
+    Echo.private('chat').whisper('status', { userID: user.id, status: 'active' })
+}, 2000);
+</script>
 
 </body>
 @endsection
