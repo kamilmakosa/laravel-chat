@@ -8,12 +8,22 @@
                 <a href="{{ route('contacts') }}" class="back-icon"><i class="fas fa-arrow-left"></i></a>
                 <img src="{{ asset($talkUser->avatar) }}" alt="User Avatar">
                 <div class="details">
-                    <span>{{ $talkUser->fname }} {{ $talkUser->lname }} <span id="typing"></span></span>
+                    <span>{{ $talkUser->fname }} {{ $talkUser->lname }}</span>
                     <p id="status"></p>
                 </div>
             </header>
             <div class="chat-box">
-
+                <div class="messages"></div>
+                <div class="chat incoming chat-bubble off">
+                    <img src="http://localhost:8000/avatars/NjzlcxZ9Xi3nxfjNS4mA1tPteVgV5j9F1GEYrt9J.jpg" alt="">
+                    <div class="details">
+                        <div class="typing-chat">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <form action="#" class="typing-area">
                 <input type="text" class="sender_id" name="sender_id" value="{{ $user->id }}" hidden>
@@ -45,11 +55,11 @@ var typingTimeout;
 Echo.private('chat.{{ $talkUser->id }}.{{ $user->id }}')
     .listenForWhisper('typing', (data) => {
         console.log(data);
-        typingStatus = document.querySelector("#typing");
-        typingStatus.innerHTML = '<i>typing message...</i>';
+        chatBubble = document.querySelector(".chat-bubble");
+        chatBubble.classList.remove("off");
         clearTimeout(typingTimeout);
         typingTimeout = setTimeout(() => {
-            typingStatus.innerHTML = "";
+            chatBubble.classList.add("off");
         }, 1500);
     });
 

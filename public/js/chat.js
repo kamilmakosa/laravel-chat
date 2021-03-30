@@ -4,6 +4,7 @@ receiver_id = form.querySelector(".receiver_id").value,
 inputField = form.querySelector(".input-field"),
 sendBtn = form.querySelector("button"),
 chatBox = document.querySelector(".chat-box");
+chatBoxMessages = document.querySelector(".chat-box .messages");
 
 form.onsubmit = (e)=>{
     e.preventDefault();
@@ -49,7 +50,7 @@ setInterval(() =>{
           if(xhr.status === 200){
             let data = xhr.response
             // chatBox.innerHTML = data;
-            chatBox.innerHTML = view(data, sender_id);
+            chatBoxMessages.innerHTML = view(data, sender_id);
             if(!chatBox.classList.contains("active")){
                 scrollToBottom();
               }
