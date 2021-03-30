@@ -15,7 +15,7 @@
             <div class="chat-box">
                 <div class="messages"></div>
                 <div class="chat incoming chat-bubble off">
-                    <img src="http://localhost:8000/avatars/NjzlcxZ9Xi3nxfjNS4mA1tPteVgV5j9F1GEYrt9J.jpg" alt="">
+                    <img src="{{ asset($talkUser->avatar) }}" alt="">
                     <div class="details">
                         <div class="typing-chat">
                             <div class="dot"></div>
