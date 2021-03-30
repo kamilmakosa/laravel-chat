@@ -30,6 +30,7 @@ var apiMessageURL = "{{ asset('api/messages') }}";
 <script src="{{ asset('js/chat.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
 <script>
+const URL = '{{ asset('') }}';
 var user = @json(Auth::user());
 var talkUser = @json($talkUser);
 

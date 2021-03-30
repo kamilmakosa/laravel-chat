@@ -77,7 +77,7 @@ function view(data, sender_id) {
         if (msg.sender_id == sender_id) {
             output += '<div class="chat outgoing"><div class="details"><p>'+ msg.message +'</p></div></div>';
         } else {
-            output += '<div class="chat incoming"><img src="/'+ avatars['id'+msg.sender_id] +'" alt=""><div class="details"><p>'+ msg.message +'</p></div></div>'
+            output += '<div class="chat incoming"><img src="'+URL+ avatars['id'+msg.sender_id] +'" alt=""><div class="details"><p>'+ msg.message +'</p></div></div>'
         }
     });
     console.log(output);
